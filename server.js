@@ -1,19 +1,3 @@
-// إصلاح المسارات
-app.get('/script.js', (req, res) => {
-    res.sendFile(path.join(__dirname, 'script.js'));
-});
-
-app.get('/styles.css', (req, res) => {
-    res.sendFile(path.join(__dirname, 'styles.css'));
-});
-
-app.get('/favicon.ico', (req, res) => {
-    res.status(204).end();
-});
-
-app.get('/favicon.png', (req, res) => {
-    res.status(204).end();
-});
 const express = require('express');
 const cors = require('cors');
 const cron = require('node-cron');
