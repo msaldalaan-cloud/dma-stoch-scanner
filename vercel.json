@@ -12,6 +12,14 @@
       "dest": "/server.js"
     },
     {
+      "src": "/script.js",
+      "dest": "/script.js"
+    },
+    {
+      "src": "/styles.css",
+      "dest": "/styles.css"
+    },
+    {
       "src": "/(.*)",
       "dest": "/server.js"
     }
