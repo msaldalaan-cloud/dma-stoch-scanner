@@ -1,1 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMA & Stochastic Scanner - Sahmak</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-left">
+                <h1>📊 ماسح المؤشرات</h1>
+                <span class="subtitle">DMA (10,50,10) & Stochastic (5,3,3)</span>
+            </div>
+            <div class="header-right">
+                <div class="market-status" id="marketStatus">
+                    <span class="status-dot"></span>
+                    <span id="marketStatusText">جاري التحميل...</span>
+                </div>
+                <div class="last-update" id="lastUpdate"></div>
+            </div>
+        </header>
 
+        <div class="main-content">
+            <aside class="sidebar">
+                <div class="symbol-section">
+                    <label class="section-label">📌 الرمز</label>
+                    <div class="symbol-input-group">
+                        <input type="text" id="symbol" placeholder="أدخل رمز السهم" value="2222">
+                        <button id="refreshSymbol" class="btn-icon">🔄</button>
+                    </div>
+                </div>
+
+                <div class="indicator-card">
+                    <div class="card-header dma-header">
+                        <span class="indicator-icon">📈</span>
+                        <h2>DMA</h2>
+                        <span class="indicator-params">(10, 50, 10)</span>
+                    </div>
+                    <div class="interval-row">
+                        <div class="interval-main">
+                            <label class="toggle-switch"><input type="checkbox" id="dmaMonthly" checked><span class="toggle-slider"></span></label>
+                            <span class="interval-name">شهري</span>
+                        </div>
+                        <div class="interval-options">
+                            <label class="check-label"><input type="checkbox" id="dmaMonthlyAbove50"><span class="check-text">فوق متوسط 50</span></label>
+                            <label class="check-label"><input type="checkbox" id="dmaMonthlyDifZero"><span class="check-text">DIF فوق صفر</span></label>
+                        </div>
+                    </div>
+                    <div class="interval-row">
+                        <div class="interval-main">
+                            <label class="toggle-switch"><input type="checkbox" id="dmaWeekly" checked><span class="toggle-slider"></span></label>
+                            <span class="interval-name">اسبوعي</span>
+                        </div>
+                        <div class="interval-options">
+                            <label class="check-label"><input type="checkbox" id="dmaWeeklyAbove50"><span class="check-text">فوق متوسط 50</span></label>
+                            <label class="check-label"><input type="checkbox" id="dmaWeeklyDifZero"><span class="check-text">DIF فوق صفر</span></label>
+                        </div>
+                    </div>
+                    <div class="interval-row">
+                        <div class="interval-main">
+                            <label class="toggle-switch"><input type="checkbox" id="dmaDaily" checked><span class="toggle-slider"></span></label>
+                            <span class="interval-name">يومي</span>
+                        </div>
+                        <div class="interval-options">
+                            <label class="check-label"><input type="checkbox" id="dmaDailyAbove50"><span class="check-text">فوق متوسط 50</span></label>
+                            <label class="check-label"><input type="checkbox" id="dmaDailyDifZero"><span class="check-text">DIF فوق صفر</span></label>
+                            <label class="check-label trigger-label"><input type="checkbox" id="dmaDailyTrigger"><span class="check-text trigger-text">⚡ زناد الدخول</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="indicator-card">
+                    <div class="card-header stoch-header">
+                        <span class="indicator-icon">📉</span>
+                        <h2>Stochastic</h2>
+                        <span class="indicator-params">(5, 3, 3)</span>
+                    </div>
+                    <div class="interval-row">
+                        <div class="interval-main">
+                            <label class="toggle-switch"><input type="checkbox" id="stochMonthly" checked><span class="toggle-slider"></span></label>
+                            <span class="interval-name">شهري</span>
+                        </div>
+                        <div class="interval-options">
+                            <label class="check-label"><input type="checkbox" id="stochMonthlyAbove50"><span class="check-text">فوق متوسط 50</span></label>
+                            <div class="level-group"><span class="check-text">مستوى التقاطع:</span><input type="number" id="stochMonthlyLevel" class="level-input" value="50" min="0" max="100"></div>
+                        </div>
+                    </div>
+                    <div class="interval-row">
+                        <div class="interval-main">
+                            <label class="toggle-switch"><input type="checkbox" id="stochWeekly" checked><span class="toggle-slider"></span></label>
+                            <span class="interval-name">اسبوعي</span>
+                        </div>
+                        <div class="interval-options">
+                            <label class="check-label"><input type="checkbox" id="stochWeeklyAbove50"><span class="check-text">فوق متوسط 50</span></label>
+                            <div class="level-group"><span class="check-text">مستوى التقاطع:</span><input type="number" id="stochWeeklyLevel" class="level-input" value="50" min="0" max="100"></div>
+                        </div>
+                    </div>
+                    <div class="interval-row">
+                        <div class="interval-main">
+                            <label class="toggle-switch"><input type="checkbox" id="stochDaily" checked><span class="toggle-slider"></span></label>
+                            <span class="interval-name">يومي</span>
+                        </div>
+                        <div class="interval-options">
+                            <label class="check-label"><input type="checkbox" id="stochDailyAbove50"><span class="check-text">فوق متوسط 50</span></label>
+                            <div class="level-group"><span class="check-text">مستوى التقاطع:</span><input type="number" id="stochDailyLevel" class="level-input" value="50" min="0" max="100"></div>
+                            <label class="check-label trigger-label"><input type="checkbox" id="stochDailyTrigger"><span class="check-text trigger-text">⚡ زناد الدخول</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="email-card">
+                    <div class="card-header email-header"><span class="indicator-icon">📧</span><h2>الإشعارات</h2></div>
+                    <div class="email-input-group">
+                        <input type="email" id="emailInput" placeholder="أدخل بريدك الإلكتروني">
+                        <button id="saveEmail" class="btn-save-email">💾 حفظ</button>
+                    </div>
+                    <span id="emailStatus" class="email-status"></span>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="saveStrategy" class="btn btn-save"><span>💾</span> حفظ الاستراتيجية</button>
+                    <button id="runScan" class="btn btn-scan"><span>🔍</span> بدء الفحص</button>
+                </div>
+            </aside>
+
+            <main class="results-panel">
+                <div class="result-card">
+                    <div class="result-header dma-result-header"><h3>📈 نتائج DMA</h3><span class="result-badge" id="dmaBadge">انتظار</span></div>
+                    <div class="result-grid">
+                        <div class="result-item" id="dmaMonthlyResult"><span class="result-label">شهري</span><span class="result-value neutral">⚪ انتظار</span></div>
+                        <div class="result-item" id="dmaWeeklyResult"><span class="result-label">اسبوعي</span><span class="result-value neutral">⚪ انتظار</span></div>
+                        <div class="result-item" id="dmaDailyResult"><span class="result-label">يومي</span><span class="result-value neutral">⚪ انتظار</span></div>
+                    </div>
+                    <div class="final-signal" id="dmaFinalSignal"><span>الإشارة النهائية:</span><span class="signal-text neutral">⚪ انتظار</span></div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-header stoch-result-header"><h3>📉 نتائج Stochastic</h3><span class="result-badge" id="stochBadge">انتظار</span></div>
+                    <div class="result-grid">
+                        <div class="result-item" id="stochMonthlyResult"><span class="result-label">شهري</span><span class="result-value neutral">⚪ انتظار</span></div>
+                        <div class="result-item" id="stochWeeklyResult"><span class="result-label">اسبوعي</span><span class="result-value neutral">⚪ انتظار</span></div>
+                        <div class="result-item" id="stochDailyResult"><span class="result-label">يومي</span><span class="result-value neutral">⚪ انتظار</span></div>
+                    </div>
+                    <div class="final-signal" id="stochFinalSignal"><span>الإشارة النهائية:</span><span class="signal-text neutral">⚪ انتظار</span></div>
+                </div>
+
+                <div class="saved-card"><h3>📋 الاستراتيجيات المحفوظة</h3><div id="strategiesList" class="strategies-list"><p class="empty-message">لا توجد استراتيجيات محفوظة</p></div></div>
+                <div class="log-card"><h3>📝 سجل الفحوصات</h3><div id="scanLog" class="scan-log"><p class="empty-message">لا توجد فحوصات سابقة</p></div></div>
+            </main>
+        </div>
+
+        <footer class="footer"><p>🔄 الفحص التلقائي كل 5 دقائق خلال التداول (9:55 - 15:30) | © 2024</p></footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
